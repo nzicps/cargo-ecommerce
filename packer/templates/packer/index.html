@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cargo Packer NZ/AUS</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+h1 { color: #2c3e50; }
+table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+table, th, td { border: 1px solid #ccc; }
+th, td { padding: 8px; text-align: center; }
+input, select, button { padding: 5px; margin: 5px 0; }
+.container { max-width: 900px; margin: auto; }
+.results { margin-top: 20px; border: 1px solid #ddd; padding: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Cargo Packer NZ/AUS</h1>
+
+<form id="itemForm" onsubmit="return false;">
+    <label>Item Name: <input type="text" id="itemName" required></label><br>
+    <label>Length (m): <input type="number" step="0.01" id="itemLength" required></label><br>
+    <label>Width (m): <input type="number" step="0.01" id="itemWidth" required></label><br>
+    <label>Height (m): <input type="number" step="0.01" id="itemHeight" required></label><br>
+    <label>Weight (kg): <input type="number" step="0.1" id="itemWeight" required></label><br>
+    <label>Price ($): <input type="number" step="0.01" id="itemPrice" required></label><br>
+    <button type="button" onclick="addItem()">Add Item</button>
+</form>
+
+<h3>Items List</h3>
+<table id="itemsTable">
+<thead>
+<tr>
+<th>Name</th><th>L</th><th>W</th><th>H</th><th>Weight</th><th>Price</th><th>Action</th>
+</tr>
+</thead>
+<tbody></tbody>
+<tfoot>
+<tr>
+<td colspan="4"><b>Totals:</b></td>
+<td id="totalWeight">0 kg</td>
+<td id="totalPrice">$0.00</td>
+<td></td>
+</tr>
+</tfoot>
+</table>
+
+<h3>Select Storage</h3>
+<select id="storageType">
+    <option value="20ft">20ft Container (6.06m × 2.44m × 2.59m, 28,000kg)</option>
+    <option value="40ft">40ft Container (12.19m × 2.44m × 2.59m, 28,000kg)</option>
+    <option value="curtainsider_small">Curtainsider Small (6.0m × 2.4m × 2.4m, 12,000kg)</option>
+    <option value="curtainsider_large">Curtainsider Large (7.5m × 2.5m × 2.5m, 15,000kg)</option>
+    <option value="cargo_van">Cargo Van (5.0m × 2.0m × 2.0m, 3,000kg)</option>
+    <option value="transporter">Transporter (6.0m × 2.2m × 2.3m, 3,500kg)</option>
+    <option value="warehouse">Warehouse (500 m³, 200,000kg)</option>
+</select>
+<button type="button" onclick="packCargo()">Pack Cargo</button>
+
+<div class="results" id="results"></div>
+<div class="results" id="containerCount"></div>
+
+</div>
+
+<script>
+let items = [];
+
+function addItem() {
+    const name = document.getElementById('itemName').value;
+    const length = parseFloat(document.getElementById('itemLength').value);
+    const width = parseFloat(document.getElementById('itemWidth').value);
+    const height = parseFloat(document.getElementById('itemHeight').value);
+    const weight = parseFloat(document.getElementById('itemWeight').value);
+    const price = parseFloat(document.getElementById('itemPrice').value);
+
+    items.push({name, length, width, height, weight, price});
+    renderTable();
+    packCargo();
+    document.getElementById('itemForm').reset();
+}
+
+function renderTable() {
+    const tbody = document.querySelector('#itemsTable tbody');
+    tbody.innerHTML = '';
+    items.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.length}</td>
+            <td>${item.width}</td>
+            <td>${item.height}</td>
+            <td>${item.weight}</td>
+            <td>${item.price.toFixed(2)}</td>
+            <td><button onclick="deleteItem(${index})">Delete</button></td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function deleteItem(index) {
+    items.splice(index, 1);
+    renderTable();
+    packCargo();
+}
+
+function packCargo() {
+    const storage = document.getElementById('storageType').value;
+    let totalVolume = 0;
+    let totalWeight = 0;
+    let totalPrice = 0;
+
+    items.forEach(item => {
+        totalVolume += item.length * item.width * item.height;
+        totalWeight += item.weight;
+        totalPrice += item.price;
+    });
+
+    document.getElementById('totalWeight').innerText = totalWeight.toFixed(2) + ' kg';
+    document.getElementById('totalPrice').innerText = '$' + totalPrice.toFixed(2);
+
+    // Storage volume & weight
+    let storageVolume = 0;
+    let storageWeight = 0;
+    switch(storage) {
+        case '20ft': storageVolume = 6.06*2.44*2.59; storageWeight=28000; break;
+        case '40ft': storageVolume = 12.19*2.44*2.59; storageWeight=28000; break;
+        case 'curtainsider_small': storageVolume = 6*2.4*2.4; storageWeight=12000; break;
+        case 'curtainsider_large': storageVolume = 7.5*2.5*2.5; storageWeight=15000; break;
+        case 'cargo_van': storageVolume = 5*2*2; storageWeight=3000; break;
+        case 'transporter': storageVolume = 6*2.2*2.3; storageWeight=3500; break;
+        case 'warehouse': storageVolume = 500; storageWeight=200000; break;
+    }
+
+    // Calculate number of containers needed
+    let containersNeeded = Math.ceil(totalVolume / storageVolume);
+
+    const resultDiv = document.getElementById('results');
+    resultDiv.innerHTML = `
+        <p>Selected Storage: <b>${storage.replace('_',' ')}</b></p>
+        <p>Total Items Volume: <b>${totalVolume.toFixed(2)} m³</b></p>
+        <p>Total Items Weight: <b>${totalWeight.toFixed(2)} kg</b></p>
+        <p>Storage Capacity: <b>${storageVolume.toFixed(2)} m³</b></p>
+        <p>Weight Capacity: <b>${storageWeight.toLocaleString()} kg</b></p>
+        <p style="color:${totalVolume>storageVolume||totalWeight>storageWeight?'red':'green'}">
+            ${totalVolume>storageVolume||totalWeight>storageWeight?'Warning: Items exceed storage or weight capacity!':'All items fit in the storage.'}
+        </p>
+    `;
+
+    const containerDiv = document.getElementById('containerCount');
+    containerDiv.innerHTML = `<p>Number of ${storage.replace('_',' ')} needed: <b>${containersNeeded}</b></p>`;
+}
+</script>
+</body>
+</html>
