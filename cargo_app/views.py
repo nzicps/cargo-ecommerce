@@ -1,4 +1,5 @@
-﻿from django.shortcuts import render
+﻿from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
 
 def checkout_view(request):
     return render(request, 'checkout.html')
@@ -66,3 +67,4 @@ def order_success_view(request):
 
 def cargo_view(request):
     return render(request, 'cargo.html')
+
