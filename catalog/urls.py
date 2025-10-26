@@ -2,5 +2,5 @@
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='catalog-index'),
+    path('', views.catalog_home, name='catalog_home'),
 ]
