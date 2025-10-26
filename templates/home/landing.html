@@ -1,8 +1,8 @@
 ﻿{% extends 'base.html' %}
-{% block title %}Welcome | Cargo E-Commerce{% endblock %}
+{% block title %}Home | Cargo E-Commerce{% endblock %}
 
 {% block content %}
-<div style="text-align:center;">
+<div style='text-align:center; max-width:800px; margin:auto;'>
   <h2>Welcome to Cargo E-Commerce</h2>
   <p>Your all-in-one logistics and marketplace platform.</p>
   <p>
@@ -10,28 +10,24 @@
     Please log in to access your personalized dashboard.
   </p>
 
-  <div style="margin:20px;">
-    <a href="/accounts/login/" style="background:#2e7d32;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;">
+  <div style='margin:25px 0;'>
+    <a href='/accounts/login/' style='background:#2e7d32;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;'>
       🔐 Login
     </a>
-    <a href="/accounts/register/" style="background:#4caf50;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;margin-left:10px;">
+    <a href='/accounts/register/' style='background:#4caf50;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;margin-left:10px;'>
       📝 Register
     </a>
   </div>
 
-  <h3 style="margin-top:40px;">Our Apps</h3>
-  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;margin-top:20px;">
+  <h3 style='margin-top:50px;'>Explore Our Apps</h3>
+  <div style='display:flex;flex-wrap:wrap;justify-content:center;gap:15px;margin-top:20px;'>
     {% for app in apps %}
-      <a href="/{{ app|lower }}/" style="flex:1 1 120px;min-width:120px;
+      <a href='/{{ app|lower }}/' style='flex:1 1 120px;min-width:120px;
          border:1px solid #2e7d32;padding:10px;border-radius:8px;text-decoration:none;
-         color:#2e7d32;font-weight:bold;background:#f0fff0;">
+         color:#2e7d32;font-weight:bold;background:#f9fff9;'>
          {{ app }}
       </a>
     {% endfor %}
   </div>
 </div>
-
-<footer style="margin-top:40px;color:#777;font-size:0.9em;">
-  © 2025 Cargo E-Commerce
-</footer>
 {% endblock %}
