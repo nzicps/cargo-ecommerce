@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='UTF-8'>
-<title>{% block title %}E-commerce{% endblock %}</title>
+<title>{% block title %}Cargo E-Commerce{% endblock %}</title>
 <style>
 body { font-family: Arial, sans-serif; background-color: #e6f2e6; color: #033d00; margin:0; padding:0;}
 header { background-color: #2e7d32; color: white; padding: 20px; text-align:center;}
@@ -15,18 +15,22 @@ main { padding: 20px; min-height: calc(100vh - 140px); }
 </head>
 <body>
 <header>
-<h1>🌿 My Green E-commerce</h1>
+<h1>🚚 Cargo E-Commerce</h1>
 <nav>
-{% for app in apps %}
-<a href="/{{ app }}/">{{ app|capfirst }}</a>
-{% endfor %}
+    <a href="{% url 'home' %}">Home</a>
+    <a href="/catalog/">Catalog</a>
+    <a href="/orders/">Orders</a>
+    <a href="/cart/">Cart</a>
+    <a href="/payments/">Payments</a>
+    <a href="/shipping/">Shipping</a>
+    <a href="/dashboard/">Dashboard</a>
 </nav>
 </header>
 <main>
 {% block content %}{% endblock %}
 </main>
 <footer>
-&copy; 2025 Green Shop
+&copy; 2025 Cargo E-Commerce
 </footer>
 </body>
 </html>
