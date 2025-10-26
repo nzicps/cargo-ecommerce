@@ -1,9 +1,11 @@
-﻿{% extends "base.html" %}
-{% block title %}Home{% endblock %}
+﻿{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
 {% block content %}
-<div class="text-center mt-5">
-  <h1 class="fw-bold text-primary mb-4">Welcome to Cargo E-Commerce!</h1>
-  <p class="lead text-muted mb-5">Fast, simple, and reliable shipping — now with online checkout.</p>
-  <a href="/checkout/" class="btn btn-lg btn-success px-5 py-3">🛒 Go to Checkout</a>
-</div>
+<h2>Dashboard</h2>
+<p>Click on an app to open:</p>
+<ul>
+{% for app in apps %}
+    <li><a href='/{{ app }}/'>{{ app|capfirst }}</a></li>
+{% endfor %}
+</ul>
 {% endblock %}
