@@ -1,37 +1,31 @@
-﻿<!DOCTYPE html>
-<html lang='en'>
-<head>
-<meta charset='UTF-8'>
-<title>Welcome to Green Shop</title>
-<style>
-body {font-family: Arial; margin:0; padding:0; background:#f2fff2;}
-header {background:#2e7d32; color:white; text-align:center; padding:30px;}
-section {padding:40px; text-align:center;}
-button, a.button {
-  background:#4caf50; color:white; padding:10px 20px;
-  border:none; border-radius:5px; text-decoration:none;
-}
-button:hover, a.button:hover {background:#45a049;}
-footer {background:#2e7d32; color:white; text-align:center; padding:10px;}
-</style>
-</head>
-<body>
-<header>
-  <h1>🌿 Welcome to Green Shop</h1>
-  <p>Your eco-friendly e-commerce partner</p>
-</header>
+﻿{% extends 'base.html' %}
+{% block title %}Welcome | Cargo E-Commerce{% endblock %}
 
-<section>
-  <h2>About Us</h2>
-  <p>We provide sustainable products and services to promote a greener planet.
-     Explore our catalog or manage your orders once you log in.</p>
-  <br>
-  <a href='{% url "login" %}' class='button'>Customer Login</a>
-  <a href='{% url "register" %}' class='button'>Register</a>
-</section>
+{% block content %}
+<div style="text-align:center;">
+  <h2>Welcome to Cargo E-Commerce</h2>
+  <p>Your all-in-one logistics and marketplace platform.</p>
+  <p>
+    Manage shipping, orders, and payments — all in one place.
+    Please log in to access your personalized dashboard.
+  </p>
 
-<footer>
-  &copy; 2025 Green Shop
-</footer>
-</body>
-</html>
+  <div style="margin:20px;">
+    <a href="/accounts/login/" style="background:#2e7d32;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;">
+      🔐 Login
+    </a>
+    <a href="/accounts/register/" style="background:#4caf50;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;margin-left:10px;">
+      📝 Register
+    </a>
+  </div>
+
+  <h3>Our Apps</h3>
+  <ul style="list-style:none;padding:0;">
+    {% for app in apps %}
+      <li style="margin:8px 0;">
+        <a href="/{{ app|lower }}/" style="font-weight:bold;color:#2e7d32;">{{ app }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

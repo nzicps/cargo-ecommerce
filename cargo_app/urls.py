@@ -1,13 +1,19 @@
 ﻿from django.contrib import admin
 from django.urls import path, include
-from . import views
+from django.views.generic import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
+from cargo_app import views
 
 urlpatterns = [
-    path('payments/', include('payments.urls')),
     path('admin/', admin.site.urls),
-    path('', views.products_view, name='products'),
-    path('checkout/', views.checkout_view, name='checkout'),
-    path('order-success/', views.order_success_view, name='order_success'),
-    path('cargo/', views.cargo_view, name='cargo'),
-]
-
+    path('', RedirectView.as_view(url='/home/')),
+    path('home/', views.home, name='home'),
+    path('accounts/', include('accounts.urls')),
+    path('cart/', include('cart.urls')),
+    path('catalog/', include('catalog.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('orders/', include('orders.urls')),
+    path('payments/', include('payments.urls')),
+    path('shipping/', include('shipping.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
