@@ -19,13 +19,19 @@
     </a>
   </div>
 
-  <h3>Our Apps</h3>
-  <ul style="list-style:none;padding:0;">
+  <h3 style="margin-top:40px;">Our Apps</h3>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;margin-top:20px;">
     {% for app in apps %}
-      <li style="margin:8px 0;">
-        <a href="/{{ app|lower }}/" style="font-weight:bold;color:#2e7d32;">{{ app }}</a>
-      </li>
+      <a href="/{{ app|lower }}/" style="flex:1 1 120px;min-width:120px;
+         border:1px solid #2e7d32;padding:10px;border-radius:8px;text-decoration:none;
+         color:#2e7d32;font-weight:bold;background:#f0fff0;">
+         {{ app }}
+      </a>
     {% endfor %}
-  </ul>
+  </div>
 </div>
+
+<footer style="margin-top:40px;color:#777;font-size:0.9em;">
+  © 2025 Cargo E-Commerce
+</footer>
 {% endblock %}
