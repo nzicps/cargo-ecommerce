@@ -139,3 +139,5 @@ TEMPLATES[0]['DIRS'] = [os.path.join(BASE_DIR, 'templates')]
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'landing'
+
+MIDDLEWARE_API_URL = 'https://web2-blockchain-middleware.onrender.com/'
