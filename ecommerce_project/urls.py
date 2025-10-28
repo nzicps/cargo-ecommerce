@@ -18,3 +18,8 @@ urlpatterns = [
     path('shipping/', include('shipping.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+from cargo_app import views  # added automatically
+
+urlpatterns += [
+    path('api/test-middleware/', views.test_middleware),
+]
