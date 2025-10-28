@@ -4,5 +4,5 @@ from accounts import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/test-middleware/', views.test_middleware),
+    path('api/test-middleware/', views.test_middleware, name='test_middleware'),
 ]
