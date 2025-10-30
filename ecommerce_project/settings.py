@@ -141,3 +141,11 @@ LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'landing'
 
 MIDDLEWARE_API_URL = 'https://web2-blockchain-middleware.onrender.com/'
+
+# === React Frontend Integration ===
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'catalog' / 'frontend' / 'dist']
+ALLOWED_HOSTS = ['*']
